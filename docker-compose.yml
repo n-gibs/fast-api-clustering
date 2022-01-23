@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+  web:
+    build: .
+    command: bash -c "uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/src
+    environment:
+      # - DATABASE_URI=postgresql+psycopg2://postgres:postgres@db:5432
+      - DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
+      - DEFAULT_MODEL_PATH=./src/app/sample_model/lin_reg_california_housing_model.joblib
+      - CLUSTER_MODEL_PATH=./src/app/sample_model_2/kmeans_5_clusters.pkl
+      - API_KEY=66938508-ca9c-49c0-8c35-f8520495456a
+      - APP_VERSION="0.0.1"
+      - APP_NAME="PMG ML DEPLOYMENT POC"
+      - API_PREFIX="/api"
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - db
+
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+  #     - PGADMIN_DEFAULT_PASSWORD=admin
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - db
