@@ -3,7 +3,7 @@ from starlette.datastructures import Secret
 
 
 APP_VERSION = "0.0.1"
-APP_NAME = "PMG ML DEPLOYMENT POC"
+APP_NAME = "ML POC"
 API_PREFIX = "/api"
 
 config = Config(".env")
