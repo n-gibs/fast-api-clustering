@@ -15,13 +15,13 @@ services:
     volumes:
       - .:/src
     environment:
-      # - DATABASE_URI=postgresql+psycopg2://postgres:postgres@db:5432
       - DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
       - DEFAULT_MODEL_PATH=./src/app/sample_model/lin_reg_california_housing_model.joblib
       - CLUSTER_MODEL_PATH=./src/app/sample_model_2/kmeans_5_clusters.pkl
+      - IS_DEBUG=false
       - API_KEY=66938508-ca9c-49c0-8c35-f8520495456a
       - APP_VERSION="0.0.1"
-      - APP_NAME="PMG ML DEPLOYMENT POC"
+      - APP_NAME="ML POC"
       - API_PREFIX="/api"
     ports:
       - "8000:8000"
